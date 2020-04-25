@@ -1,0 +1,81 @@
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>d370d5d6-3d7f-4282-99a3-df2f33b8b2ed</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <StartupFile>BoltHead.py</StartupFile>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <Name>BoltHead</Name>
+    <RootNamespace>BoltHead</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="BoltHead.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Maze\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Maze\1.png" />
+    <Content Include="Maze\10.png" />
+    <Content Include="Maze\11.png" />
+    <Content Include="Maze\12.png" />
+    <Content Include="Maze\13.png" />
+    <Content Include="Maze\14.png" />
+    <Content Include="Maze\15.png" />
+    <Content Include="Maze\16.png" />
+    <Content Include="Maze\17.png" />
+    <Content Include="Maze\18.png" />
+    <Content Include="Maze\19.png" />
+    <Content Include="Maze\2.png" />
+    <Content Include="Maze\20.png" />
+    <Content Include="Maze\21.png" />
+    <Content Include="Maze\22.png" />
+    <Content Include="Maze\23.png" />
+    <Content Include="Maze\24.png" />
+    <Content Include="Maze\25.png" />
+    <Content Include="Maze\26.png" />
+    <Content Include="Maze\27.png" />
+    <Content Include="Maze\28.png" />
+    <Content Include="Maze\29.png" />
+    <Content Include="Maze\3.png" />
+    <Content Include="Maze\30.png" />
+    <Content Include="Maze\31.png" />
+    <Content Include="Maze\32.png" />
+    <Content Include="Maze\33.png" />
+    <Content Include="Maze\34.png" />
+    <Content Include="Maze\35.png" />
+    <Content Include="Maze\36.png" />
+    <Content Include="Maze\37.png" />
+    <Content Include="Maze\38.png" />
+    <Content Include="Maze\39.png" />
+    <Content Include="Maze\4.png" />
+    <Content Include="Maze\40.png" />
+    <Content Include="Maze\5.png" />
+    <Content Include="Maze\6.png" />
+    <Content Include="Maze\7.png" />
+    <Content Include="Maze\8.png" />
+    <Content Include="Maze\9.png" />
+    <Content Include="Maze\Full.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
+  <!-- Uncomment the CoreCompile target to enable the Build command in
+       Visual Studio and specify your pre- and post-build commands in
+       the BeforeBuild and AfterBuild targets below. -->
+  <!--<Target Name="CoreCompile" />-->
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+</Project>
