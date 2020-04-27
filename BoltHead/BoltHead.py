@@ -1,4 +1,5 @@
 import pygame
+import datetime
 import csv
 
 pygame.init()
@@ -13,14 +14,25 @@ screen = pygame.display.set_mode((800, 600))
 pygame.display.set_caption('Maze')
 clock = pygame.time.Clock()
 
+mazeLayoutTest = [[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]]
+mazeFull = []
+mazeTest = []
 answer = {1:"UP",2:"UP",3:"UP",4:"RIGHT",5:"RIGHT",6:"RIGHT",7:"DOWN",8:"DOWN",9:"DOWN",10:"RIGHT",11:"RIGHT",12:"RIGHT",13:"RIGHT",14:"UP",15:"UP",16:"UP",17:"RIGHT",18:"RIGHT",19:"RIGHT",20:"UP",21:"UP",22:"UP",23:"LEFT",24:"LEFT",25:"LEFT",26:"LEFT",27:"LEFT",28:"UP",29:"UP",30:"UP",31:"UP",32:"RIGHT",33:"RIGHT",34:"RIGHT",35:"RIGHT",36:"UP",37:"RIGHT",38:"RIGHT",39:"RIGHT"}
 errors = 0
 started = False
 currentMove = 1
 BLUE_DARK  = (0,0,150)
+NEON_GREEN = (57, 255, 20)
+RED = (255,0,0)
 BLOCK_SIZE = 24
 screen.fill(BG_COLOR)
 start_time = 0
+
+introText = FONT.render("Press Enter to start",True,TEXT_COLOR)
+errorsText = FONT.render("Errors: " + str(errors),True,TEXT_COLOR)
+screen.blit(errorsText,(601,0))
+screen.blit(introText,(0,0))
+pygame.display.flip()
 
 
 
@@ -46,23 +58,14 @@ class playerCube(object):
         self.surface = surface
         self.posx = posx
         self.posy = posy
-        self.colour = (255, 0, 0)
+        self.colour = NEON_GREEN
         self.rect = pygame.Rect(self.posx,self.posy,BLOCK_SIZE,BLOCK_SIZE)
 
     def draw(self):
         pygame.draw.rect(self.surface,self.colour,(self.posx,self.posy,BLOCK_SIZE,BLOCK_SIZE))
 
-mazeLayoutFull = [[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,0,0,0,0,0],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1],[1,0,1,0,1,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,1,0,1,0,1],[1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1],[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],[1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1],[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],[1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1],[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],[1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1],[1,0,1,0,1,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,1],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1],[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1],[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1],[1,0,0,0,0,0,0,0,1,0,1,0,1,0,1,0,0,0,0,0,0,0,1,0,1],[1,0,1,1,1,1,1,0,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1],[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],[1,0,1,1,1,1,1,0,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1],[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],[1,0,1,1,1,1,1,0,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1],[1,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,1,0,1,0,1,0,1,0,1],[1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]]
-mazeLayoutTest = [[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]]
-mazeFull = []
-mazeTest = []
-player = playerCube(screen,24,552)
 
-for i in range (len(mazeLayoutFull)):
-    for j in range(len(mazeLayoutFull[i])):
-        posx = j*BLOCK_SIZE
-        posy = i*BLOCK_SIZE
-        mazeFull.append(cube(screen,mazeLayoutFull[i][j],posx,posy))
+player = playerCube(screen,24,552)
 
 for i in range (len(mazeLayoutTest)):
     for j in range(len(mazeLayoutTest[i])):
@@ -70,15 +73,10 @@ for i in range (len(mazeLayoutTest)):
         posy = i*BLOCK_SIZE
         mazeTest.append(cube(screen,mazeLayoutTest[i][j],posx,posy))
 
-introText = FONT.render("Press Enter to start",True,TEXT_COLOR)
-errorsText = FONT.render("Errors: " + str(errors),True,TEXT_COLOR)
-screen.blit(errorsText,(601,0))
-screen.blit(introText,(0,0))
-pygame.display.flip()
-
 
 def createReport():
-    with open('result.csv', 'w', newline='') as csvfile:
+    currentDT = datetime.datetime.now()
+    with open('report'+str(currentDT.strftime("%H%M%S"))+'.csv', 'w', newline='') as csvfile:
         label = ['errors','time']
         theWriter = csv.DictWriter(csvfile, fieldnames=label)
         theWriter.writeheader()
@@ -96,11 +94,7 @@ def drawScreen():
 
 def start():
     global start_time
-    for maze in mazeFull:
-        maze.draw()
-    pygame.display.update()
     start_time = pygame.time.get_ticks()
-    pygame.time.delay(2000)
     
 def playerMove(move):
     if move == "UP":
@@ -115,6 +109,20 @@ def playerMove(move):
 def checkAnswer(imgNr, input):
     if answer.get(imgNr) == input:
         return True
+
+def playerError(move):
+    playerOldPosition = (player.posx,player.posy)
+    playerMove(move)
+    player.colour = RED
+    player.draw()
+    pygame.draw.rect(screen,BG_COLOR,(playerOldPosition[0],playerOldPosition[1],BLOCK_SIZE,BLOCK_SIZE))
+    pygame.display.update()
+    pygame.time.delay(200)
+    player.posx = playerOldPosition[0]
+    player.posy = playerOldPosition[1]
+    player.colour = NEON_GREEN
+    player.draw()
+
 
 while running:
     clock.tick(60)
@@ -138,6 +146,7 @@ while running:
                 else:
                     errors += 1
                     errorsText = FONT.render("Errors: " + str(errors),True,TEXT_COLOR)
+                    playerError("UP")
 
             elif event.key == pygame.K_DOWN:
                 if checkAnswer(currentMove, "DOWN"):
@@ -146,6 +155,7 @@ while running:
                 else:
                     errors += 1
                     errorsText = FONT.render("Errors: " + str(errors),True,TEXT_COLOR)
+                    playerError("DOWN")
 
             elif event.key == pygame.K_LEFT:
                 if checkAnswer(currentMove, "LEFT"):
@@ -154,6 +164,7 @@ while running:
                 else:
                     errors += 1
                     errorsText = FONT.render("Errors: " + str(errors),True,TEXT_COLOR)
+                    playerError("LEFT")
 
             elif event.key == pygame.K_RIGHT:
                 if checkAnswer(currentMove, "RIGHT"):
@@ -162,6 +173,7 @@ while running:
                 else:
                     errors += 1
                     errorsText = FONT.render("Errors: " + str(errors),True,TEXT_COLOR)
+                    playerError("RIGHT")
 
     if currentMove == 40:
         elapsedTime = pygame.time.get_ticks() - start_time
