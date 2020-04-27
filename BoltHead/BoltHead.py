@@ -2,7 +2,9 @@ import pygame
 import datetime
 import csv
 
+pygame.mixer.pre_init(44100, -16, 1, 512)
 pygame.init()
+pygame.mixer.init()
 
 FONT = pygame.font.SysFont("Sans", 20)
 TEXT_COLOR = (0, 0, 0)
@@ -27,6 +29,8 @@ RED = (255,0,0)
 BLOCK_SIZE = 24
 screen.fill(BG_COLOR)
 start_time = 0
+errorSound = pygame.mixer.Sound("error.wav")
+errorSound.set_volume(0.1)
 
 introText = FONT.render("Press Enter to start",True,TEXT_COLOR)
 errorsText = FONT.render("Errors: " + str(errors),True,TEXT_COLOR)
@@ -111,6 +115,7 @@ def checkAnswer(imgNr, input):
         return True
 
 def playerError(move):
+    errorSound.play()
     playerOldPosition = (player.posx,player.posy)
     playerMove(move)
     player.colour = RED

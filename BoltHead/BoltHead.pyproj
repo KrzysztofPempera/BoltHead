@@ -27,6 +27,7 @@
     <Folder Include="Maze\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="error.wav" />
     <Content Include="Maze\1.png" />
     <Content Include="Maze\10.png" />
     <Content Include="Maze\11.png" />
